@@ -201,7 +201,7 @@ void Block::paintEvent(QPaintEvent*){
     case 32768:
         painter.setBrush(QBrush("#3D3A33"));
         piclabel->setFont(QFont("Clear Sans Medium", 13));
-        piclabel->setText("<h2><font color=#F9F6F2>32786</font></h2>");
+        piclabel->setText("<h2><font color=#F9F6F2>32768</font></h2>");
         break;
     case 65536:
         painter.setBrush(QBrush("#3D3A33"));
