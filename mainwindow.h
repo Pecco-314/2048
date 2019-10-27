@@ -31,7 +31,7 @@ public:
     void openHTP();
     void newGame(bool load=false);
     void load();
-    void quickLoad();
+    bool quickLoad();
     void save();
     void quickSave();
     void initMenu();
