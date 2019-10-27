@@ -34,4 +34,4 @@ RESOURCES += \
     res.qrc
 
 RC_ICONS = 2048.ico
-VERSION = 1.1.2
+VERSION = 1.1.3
