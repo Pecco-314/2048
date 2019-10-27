@@ -5,7 +5,11 @@ void MainWindow::newGame(bool load){
     if(map!=nullptr) delete(map);
     map = new Map(this);
     connect(map, &Map::judge_wol, this, &MainWindow::wol);
-    if(load) quickLoad();
+    if(load){
+        if(!quickLoad()){
+            map->init();
+        }
+    }
     else{
         map->init();
         if(autosave->isChecked()) quickSave();
@@ -33,7 +37,7 @@ bool MainWindow::readEdits(){
 }
 
 void MainWindow::openAbouts(){
-    QMessageBox::about(this, tr("关于2048"),tr("<html><strong>2048 Desktop 1.1.2</strong><br/>原作者：Gabriele Cirulli<br/>开发者：Pecco<br/>电子邮件：pecco@qq.com</html>"));
+    QMessageBox::about(this, tr("关于2048"),tr("<html><strong>2048 Desktop 1.1.3</strong><br/>原作者：Gabriele Cirulli<br/>开发者：Pecco<br/>电子邮件：pecco@qq.com</html>"));
 }
 
 void MainWindow::openHTP(){
@@ -47,17 +51,19 @@ void MainWindow::openHTP(){
                                            "游戏胜利后，仍然可以继续游玩，直到再无可移动的方块为止。"));
 }
 
-void MainWindow::quickLoad(){
-    map->loadmap();
+bool MainWindow::quickLoad(){
+    return map->loadmap();
 }
 
 void MainWindow::load(){
     QString filename = QFileDialog::getOpenFileName(this, tr("加载..."), "", tr("数据文件 (*.dat)"));
     map->loadmap(filename);
+    initPoints();
 }
 
 void MainWindow::quickSave(){
     map->savemap();
+    initPoints();
 }
 
 void MainWindow::save(){
@@ -118,17 +124,17 @@ void MainWindow::initMenu(){
 void MainWindow::initPoints(){
     map->loadbest();
     ptlabel->setText(QString::number(map->pt));
-    ptlabel->setGeometry(640, 215, 210, 325);
+    ptlabel->setGeometry(360, 645, 500, 325);
     ptlabel->setFont(QFont("方正粗圆_GBK", 30));
-    ptlabel->setAlignment(Qt::AlignRight);
+    ptlabel->setAlignment(Qt::AlignLeft);
 
     bestlabel->setText(QString::number(map->best));
-    bestlabel->setGeometry(640, 415, 210, 325);
+    bestlabel->setGeometry(360, 740, 500, 325);
     bestlabel->setFont(QFont("方正粗圆_GBK", 30));
-    bestlabel->setAlignment(Qt::AlignRight);
+    bestlabel->setAlignment(Qt::AlignLeft);
 
     QPalette pa;
-    pa.setColor(QPalette::WindowText, QColor("#BBADA0"));
+    pa.setColor(QPalette::WindowText, QColor("#776E65"));
     ptlabel->setPalette(pa);
     bestlabel->setPalette(pa);
 }
@@ -150,10 +156,10 @@ void MainWindow::paintEvent(QPaintEvent*){
     for(int i=45;i<=450;i+=135)
         for(int j=75;j<=480;j+=135)
             painter.drawRoundedRect(i, j, 115, 115, 5, 5);
-    painter.setPen(QColor("#BBADA0"));
+    painter.setPen(QColor("#776E65"));
     painter.setFont(QFont("方正粗圆_GBK", 30));
-    painter.drawText(640, 185, tr("分数"));
-    painter.drawText(640, 385, tr("最高分"));
+    painter.drawText(170, 690, tr("分数"));
+    painter.drawText(170, 785, tr("最高分"));
 }
 
 void MainWindow::wol(){
@@ -189,15 +195,14 @@ void MainWindow::keyReleaseEvent(QKeyEvent*){}
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    setMinimumSize(900,640);
-    setMaximumSize(900,640);
+    setMinimumSize(610,840);
+    setMaximumSize(610,840);
     setWindowTitle(tr("2048"));
     setWindowIcon(QIcon(":/icons/2048.ico"));
     initFonts();
 
     ptlabel = new QLabel(this);
     bestlabel = new QLabel(this);
-
     newGame(true);
     initMenu();
 
