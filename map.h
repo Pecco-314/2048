@@ -24,7 +24,7 @@ public:
     void savebest();
     void loadbest();
     void savemap(QString filename="map.dat");
-    void loadmap(QString filename="map.dat");
+    bool loadmap(QString filename="map.dat");
     void setpts(qint32 x);
     void unhideall();
     void hideall();
