@@ -27,7 +27,7 @@ Block* Map::generate(){
         if(b->getValue()==0)
             break;
     }
-    b->setValue((rand()%2)?2:4);
+    b->setValue((rand()%10)?2:4);
     b->ani->start();
     b->ani2->start();
     connect(b->ani2, &QPropertyAnimation::finished, this, &Map::judge);
@@ -67,7 +67,7 @@ void Map::savemap(QString filename){
     save.close();
 }
 
-void Map::loadmap(QString filename){
+bool Map::loadmap(QString filename){
     qint32 v;
     QFile save(filename);
     if(save.exists()){
@@ -86,7 +86,8 @@ void Map::loadmap(QString filename){
         }
         save.close();
     }
-    loadbest();
+    else return false;
+    return true;
 }
 
 void Map::savebest(){
